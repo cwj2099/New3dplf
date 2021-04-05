@@ -39,11 +39,6 @@ public class CharacterControl : MonoBehaviour
             moveDirection = new Vector3(xMove, 0.0f, yMove);
             moveDirection *= speed;
 
-            // Face in direction of movement.
-            if (moveDirection.magnitude > float.Epsilon)
-            {
-                transform.rotation = Quaternion.LookRotation(moveDirection);
-            }
 
             //animator.SetFloat("MoveSpeed", moveDirection.magnitude);
 
@@ -53,6 +48,18 @@ public class CharacterControl : MonoBehaviour
                // moveDirection.y = jumpSpeed;
             }
         }
+        else
+        {
+            //able to change direction in air
+            moveDirection = new Vector3(xMove*speed, moveDirection.y, yMove*speed);
+        }
+
+        // Face in direction of movement.
+        if (moveDirection.magnitude > float.Epsilon)
+        {
+            transform.rotation = Quaternion.LookRotation(new Vector3(moveDirection.x,0, moveDirection.z) );
+        }
+
         if (jump&&riseCounter>0f)
         {
             riseCounter -= Time.fixedDeltaTime;
